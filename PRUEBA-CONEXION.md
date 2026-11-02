@@ -1,0 +1,1 @@
+Conexión Claude-GitHub verificada
