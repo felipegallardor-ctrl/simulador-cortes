@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta name="description" content="Prototipo educativo para practicar cortes gastronómicos.">
+<title>Simulador de Cortes</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Ir al contenido</a>
+<header class="cabecera">
+  <div class="cabecera-interior">
+    <div class="logo-espacio" role="img" aria-label="Espacio reservado para el logo institucional">Logo</div>
+    <div class="cabecera-texto">
+      <p class="institucion">Liceo Bicentenario TP Simón Bolívar · Curicó</p>
+      <h1>Simulador de cortes gastronómicos</h1>
+    </div>
+    <p class="estado-prototipo">Prototipo: medidas pendientes de validación docente</p>
+  </div>
+  <div class="pestanas" role="tablist" aria-label="Secciones del simulador">
+    <button role="tab" id="tab-explorar" aria-controls="panel-explorar" aria-selected="true">Explorar</button>
+    <button role="tab" id="tab-reconocer" aria-controls="panel-reconocer" aria-selected="false" tabindex="-1">Reconocer</button>
+    <button role="tab" id="tab-medir" aria-controls="panel-medir" aria-selected="false" tabindex="-1">Medir</button>
+    <button role="tab" id="tab-cortar" aria-controls="panel-cortar" aria-selected="false" tabindex="-1">Cortar</button>
+    <button role="tab" id="tab-fuentes" aria-controls="panel-fuentes" aria-selected="false" tabindex="-1">Fuentes</button>
+  </div>
+</header>
+
+<main id="contenido">
+  <section id="panel-explorar" role="tabpanel" aria-labelledby="tab-explorar" tabindex="0">
+    <div class="intro"><h2>Explora los cortes</h2><p>Elige un corte para ver su forma, sus medidas y cómo se obtiene.</p></div>
+    <div class="explorar">
+      <nav id="lista-cortes" class="lista-cortes" aria-label="Lista de cortes"></nav>
+      <article id="detalle-corte" class="tarjeta detalle"></article>
+    </div>
+  </section>
+
+  <section id="panel-reconocer" role="tabpanel" aria-labelledby="tab-reconocer" tabindex="0" hidden>
+    <div class="intro"><h2>Reconoce el corte</h2><p>Responde 8 preguntas. Después de cada una verás por qué la respuesta es correcta.</p></div>
+    <div id="quiz" class="tarjeta quiz"></div>
+  </section>
+
+  <section id="panel-medir" role="tabpanel" aria-labelledby="tab-medir" tabindex="0" hidden>
+    <div class="intro"><h2>Define las medidas</h2><p>Elige un corte y escribe de memoria sus medidas en milímetros.</p></div>
+    <div class="dos-columnas">
+      <form id="form-medir" class="tarjeta" novalidate>
+        <label class="campo" for="medir-corte">Corte
+          <select id="medir-corte"></select>
+        </label>
+        <div id="medir-campos"></div>
+        <div class="acciones">
+          <button class="boton principal" type="submit">Revisar medidas</button>
+          <button class="boton" type="button" id="medir-pista">Ver pista</button>
+        </div>
+        <p id="medir-pista-texto" class="pista" hidden></p>
+      </form>
+      <div class="tarjeta">
+        <div id="medir-dibujo" class="dibujo"></div>
+        <div id="medir-resultado" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-cortar" role="tabpanel" aria-labelledby="tab-cortar" tabindex="0" hidden>
+    <div class="intro"><h2>Practica la regularidad</h2><p>Mueve el cuchillo sobre la regla y haz 5 cortes. Las piezas parejas se cuecen de manera más pareja.</p></div>
+    <div class="tarjeta cortar">
+      <label class="campo" for="cortar-corte">Corte que vas a practicar
+        <select id="cortar-corte"></select>
+      </label>
+      <p id="cortar-meta" class="meta"></p>
+      <div id="cortar-tabla" class="tabla-corte"></div>
+      <label class="campo" for="cortar-posicion">Posición del cuchillo: <output id="cortar-valor" for="cortar-posicion">0 mm</output>
+        <input type="range" id="cortar-posicion" min="0" step="0.5" value="0">
+      </label>
+      <div class="acciones">
+        <button class="boton principal" type="button" id="cortar-accion">Cortar aquí</button>
+        <button class="boton" type="button" id="cortar-deshacer">Deshacer</button>
+        <button class="boton" type="button" id="cortar-reiniciar">Reiniciar</button>
+      </div>
+      <p id="cortar-aviso" class="error" role="alert" hidden></p>
+      <div id="cortar-resultado" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="panel-fuentes" role="tabpanel" aria-labelledby="tab-fuentes" tabindex="0" hidden>
+    <div class="intro"><h2>Fuentes y criterios</h2></div>
+    <div class="tarjeta texto">
+      <h3>Cómo se eligieron las medidas</h3>
+      <p>Las medidas son referencias contrastadas entre fuentes publicadas, en su mayoría de formación culinaria. No hay una norma única: los nombres y tamaños cambian entre escuelas, por lo que cada corte muestra las diferencias encontradas.</p>
+      <p>Este prototipo no reemplaza el criterio del docente ni un texto de estudio de la especialidad. Si el liceo usa otras medidas, se cambian en el archivo <code>datos/cortes.js</code>.</p>
+      <h3>Criterio de revisión</h3>
+      <p>Las actividades aceptan un margen de ±10 % sobre el rango de referencia, con un mínimo de 0,5 mm. Este margen es un criterio del simulador, no una norma oficial.</p>
+      <h3>Objetivos curriculares</h3>
+      <p>Pendiente: el docente debe indicar los objetivos del módulo. Este prototipo no los incluye porque no se le entregó una planificación.</p>
+      <h3>Privacidad</h3>
+      <p>El simulador no pide nombres ni guarda resultados. Todo funciona en este dispositivo.</p>
+      <h3>Fuentes consultadas</h3>
+      <ul id="lista-fuentes"></ul>
+    </div>
+  </section>
+</main>
+<script src="datos/cortes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
